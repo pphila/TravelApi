@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelApi.Models;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace TravelApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class DestinationsController : ControllerBase
+    // [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    public class DestinationsV1Controller : ControllerBase
     {
         private readonly TravelApiContext _context;
 
-        public DestinationsController(TravelApiContext context)
+        public DestinationsV1Controller(TravelApiContext context)
         {
             _context = context;
         }
@@ -30,15 +33,15 @@ namespace TravelApi.Controllers
                 query = query.Where(e => e.Country == country);
             }
 
-            if (rating > 0 )
-            {
-                query = query.Where(e => e.Rating >= rating);
-            }
+            // if (rating > 0 )
+            // {
+            //     query = query.Where(e => e.Rating >= rating);
+            // }
 
-            if (city != null)
-            {
-                query = query.Where(e => e.City == city);
-            }
+            // if (city != null)
+            // {
+            //     query = query.Where(e => e.City == city);
+            // }
 
 
             return await query.ToListAsync();
