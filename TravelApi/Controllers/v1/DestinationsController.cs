@@ -11,21 +11,22 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 namespace TravelApi.Controllers
 {
     [ApiController]
-    // [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class DestinationsV1Controller : ControllerBase
+    public class DestinationsController : ControllerBase
     {
         private readonly TravelApiContext _context;
 
-        public DestinationsV1Controller(TravelApiContext context)
+        public DestinationsController(TravelApiContext context)
         {
             _context = context;
         }
 
         // GET: api/Destinations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country, int rating, string city)
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country)
         {
             IQueryable<Destination> query = _context.Destinations.AsQueryable();
             if (country != null )

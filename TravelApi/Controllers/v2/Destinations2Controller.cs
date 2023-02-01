@@ -10,23 +10,24 @@ using TravelApi.Models;
 namespace TravelApi.Controllers
 { 
     [ApiController]
-    // [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
-    public class DestinationsV2Controller : ControllerBase
+    public class Destinations2Controller : ControllerBase
     {
         private readonly TravelApiContext _context;
 
-        public DestinationsV2Controller(TravelApiContext context)
+        public Destinations2Controller(TravelApiContext context)
         {
             _context = context;
         }
 
         // GET: api/Destinations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country, int rating, string city)
+        [MapToApiVersion("2.0")]
+        public async Task<ActionResult<IEnumerable<Destination2>>> GetDestinations2(string country, int rating, string city)
         {
-            IQueryable<Destination> query = _context.Destinations.AsQueryable();
+            IQueryable<Destination2> query = _context.Destinations2.AsQueryable();
             if (country != null )
             {
                 query = query.Where(e => e.Country == country);
