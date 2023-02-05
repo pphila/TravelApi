@@ -20,6 +20,7 @@ namespace TravelApi.Models
                     new Destination { DestinationId = 4, City = "London", Country = "England", Rating = 3, Review = "Fish n chips mate!"},
                     new Destination { DestinationId = 5, City = "New York", Country = "USA", Rating = 4, Review = "Great Parks and Museums"}
                 );
+
         }
     }
 }

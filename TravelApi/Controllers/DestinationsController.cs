@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelApi.Models;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace TravelApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    // [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("2.0")]
     public class DestinationsController : ControllerBase
     {
         private readonly TravelApiContext _context;
@@ -22,6 +26,32 @@ namespace TravelApi.Controllers
 
         // GET: api/Destinations
         [HttpGet]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country)
+        {
+            IQueryable<Destination> query = _context.Destinations.AsQueryable();
+            if (country != null )
+            {
+                query = query.Where(e => e.Country == country);
+            }
+
+            // if (rating > 0 )
+            // {
+            //     query = query.Where(e => e.Rating >= rating);
+            // }
+
+            // if (city != null)
+            // {
+            //     query = query.Where(e => e.City == city);
+            // }
+
+
+            return await query.ToListAsync();
+        }
+
+
+        [HttpGet]
+        [MapToApiVersion("2.0")]
         public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country, int rating, string city)
         {
             IQueryable<Destination> query = _context.Destinations.AsQueryable();
@@ -39,7 +69,6 @@ namespace TravelApi.Controllers
             {
                 query = query.Where(e => e.City == city);
             }
-
 
             return await query.ToListAsync();
         }
