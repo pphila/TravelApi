@@ -52,9 +52,9 @@ namespace TravelApi.Controllers
 
         [HttpGet]
         [MapToApiVersion("2.0")]
-        public async Task<ActionResult<IEnumerable<Destination2>>> GetDestinations2(string country, int rating, string city)
+        public async Task<ActionResult<IEnumerable<Destination>>> GetDestinations(string country, int rating, string city)
         {
-            IQueryable<Destination2> query = _context.Destinations2.AsQueryable();
+            IQueryable<Destination> query = _context.Destinations.AsQueryable();
             if (country != null )
             {
                 query = query.Where(e => e.Country == country);
